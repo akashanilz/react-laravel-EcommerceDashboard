@@ -27,8 +27,7 @@ function ProductsList() {
       <th>Price</th>
       <th>Description</th>
       <th>Image</th>
-      <th>Update</th>
-      <th>Delete</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
@@ -40,8 +39,18 @@ function ProductsList() {
           <td>{e.price}</td>
           <td>{e.description}</td>
           <td><img src= { `${productsURL+e.file_path}`} alt="" width="50px;" /></td>
-          <td><button className="btn btn-warning">Edit</button></td>
-          <td><button className="btn btn-danger">Delete</button></td>
+          <td >
+            <span>
+            <button className="btn btn-warning mr-5">Edit</button>
+            </span>
+             <span>
+          <button onClick={()=>{
+            axios.delete('product/delete/'+`${e.id}`)
+          }
+           
+        } className="btn btn-danger mr-5">Delete</button>
+          </span>
+         </td>
         </tr>
           )
       }
