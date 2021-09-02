@@ -8,11 +8,22 @@ import { productsURL } from '../Constants/Constants'
 function ProductsList() {
     const [products, setProducts] = useState([])
     useEffect(() => {
-      axios.get('allProducts').then((response)=>{
-          setProducts(response.data)
-          console.log(response.data)
-      })
+       getData()
     }, [])
+   function  deleteItem(id){
+    if(window.confirm("Are you sure")) {
+    axios.delete('product/delete/'+id).then((response)=>{
+      getData()
+    })
+    }
+    getData()
+    }
+    function getData(){
+      axios.get('allProducts').then((response)=>{
+        setProducts(response.data)
+        console.log(response.data)
+    })
+    }
     return (
         <div>
             <Header/>
@@ -39,22 +50,11 @@ function ProductsList() {
           <td>{e.price}</td>
           <td>{e.description}</td>
           <td><img src= { `${productsURL+e.file_path}`} alt="" width="50px;" /></td>
-          <td >
-            <span>
-            <button className="btn btn-warning mr-5">Edit</button>
-            </span>
-             <span>
-          <button onClick={()=>{
-            axios.delete('product/delete/'+`${e.id}`)
-          }
-           
-        } className="btn btn-danger mr-5">Delete</button>
-          </span>
-         </td>
-        </tr>
+          <td > <span> <button className="btn btn-warning mr-5">Edit</button> </span>
+          <span><button onClick={()=>{deleteItem(e.id)}} className="btn btn-danger mr-5">Delete</button></span></td>
+          </tr>
           )
       }
-
   </tbody>
 </Table>
         </div>
